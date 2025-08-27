@@ -1,30 +1,57 @@
-// array of terms to be displayed on the page
-const terms = ["SEO", "Abstraction", "IDE", "OOP", "Runtime"];
+// Wait for FULL page load (images, CSS, etc.) before injecting the Employees section
+window.addEventListener("load", () => {
+  // Footer year
+  const y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
 
-const populateTermList = (listNode, terms) => {
-    // iterate over term array
-    terms.forEach(term => {
-        // create new DOM node
-        const newLiNode = document.createElement("li");
+  // Create & insert the Employees section at the top of <main>
+  const main = document.getElementById("main-content");
+  const employeesSection = document.createElement("section");
+  employeesSection.id = "employees";
+  employeesSection.setAttribute("aria-live", "polite");
 
-        // modify HTML in new DOM node to include iterated term value
-        newLiNode.innerHTML = `<a href="#">${term}</a>`;
+  // Heading + loading message
+  const h3 = document.createElement("h3");
+  h3.textContent = "Employees";
+  const loading = document.createElement("p");
+  loading.id = "emp-loading";
+  loading.textContent = "Loading employees…";
 
-        // append new LI node as child element of list argument node
-        listNode.appendChild(newLiNode);
+  employeesSection.appendChild(h3);
+  employeesSection.appendChild(loading);
+  main.insertBefore(employeesSection, main.children[1] || null); // right after the page heading
+
+  // Fetch the external JSON and render departments & names
+  fetch("./employeeLists.json")
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then((departments) => {
+      loading.remove();
+
+      departments.forEach((dept) => {
+        // Each department as a bordered “new-product” block
+        const card = document.createElement("article");
+        card.className = "new-product";
+
+        const h4 = document.createElement("h4");
+        h4.textContent = dept.department;
+
+        const ul = document.createElement("ul");
+        (dept.employees || []).forEach((name) => {
+          const li = document.createElement("li");
+          li.textContent = name;
+          ul.appendChild(li);
+        });
+
+        card.appendChild(h4);
+        card.appendChild(ul);
+        employeesSection.appendChild(card);
+      });
+    })
+    .catch((err) => {
+      loading.textContent = "Failed to load employees. Please check the console.";
+      console.error("Employee load error:", err);
     });
-}
-
-
-/** 
-// add event listener to the "document" node
-// callback function invokes when event "fires" on element that listener was
-appended to, in this case, when the DOM has loaded fully
-*/ 
-document.addEventListener("DOMContentLoaded", () => {
-    // store the DOM node referencing an element with class "top-terms__list"
-    const termListNode = document.querySelector(".top-terms__list");
-
-    // invoke function passing in DOM node and terms array
-    populateTermList(termListNode, terms);
 });

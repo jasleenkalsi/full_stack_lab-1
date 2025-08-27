@@ -1,57 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pixell River Financial</title>
-  <!-- Link to stylesheet -->
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <!--  Navigation Bar  -->
-  <nav>
-    <div class="logo">
-      <span>Pixell River</span>
-    </div>
-    <div class="page-links">
-      <span><a href="#">Employees</a>
-    </span>
-      <span><a href="#">Organization</a>
-    </span>
-    </div>
-  </nav>
+  <!-- === Site Header with Nav (semantic) === -->
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Primary">
+      <a class="brand" href="#">
+        <img src="logo.png" alt="Pixell River Financial logo" />
+        <span>Pixell River Financial</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#employees">Employees</a></li>
+        <li><a href="#organization">Organization</a></li>
+      </ul>
+    </nav>
 
-  <!-- === Header Section === -->
-  <header>
-    <h1>Pixell River Financial</h1>
-    <span>Welcome to our employee and organisation information.</span>
+    <div class="hero">
+      <h1>Pixell River Financial</h1>
+      <p>Welcome to our Employee and Organization information portal.</p>
+    </div>
   </header>
 
-  <!-- === Main Content === -->
-  <main>
-    <!-- Employee Directory -->
-    <section class="employees">
-      <h2>Employee Directory</h2>
-      <ul id="employee-list">
-        <!-- Employees will be inserted dynamically by script.js -->
-    </ul>
-    </section>
+  <!-- === Main content (JS will inject the Employees <section> AFTER full load) === -->
+  <main id="main-content">
+    <h2 class="page-heading">Employee Directory</h2>
 
-    <!-- Organization Overview -->
-    <section class="organization">
-      <h2>Our Organization</h2>
-      <p>
-        
-      </p>
+    <!-- Static Organization section (for the nav link target) -->
+    <section id="organization" class="organization">
+      <h3>Organization</h3>
+      <p>High-level information about departments and teams will appear here.</p>
     </section>
   </main>
 
   <!-- === Footer === -->
   <footer>
-    &copy; <span id="year"></span> Pixell River Financial
+    &copy; <span id="year"></span> Copyright Pixell River Financial
   </footer>
 
-  <!-- Link to external JS -->
   <script src="./script.js"></script>
 </body>
 </html>
